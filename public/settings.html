@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>__NAME__ - Settings</title>
+
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="container">
+        <h1>__NAME__ <small>v__VERSION__</small></h1>
+
+        <p id="save_status" class="green">
+          <span data-status="saved">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
+              <path
+                d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"
+              />
+            </svg>
+            <span>Everything is saved</span>
+          </span>
+
+          <span data-status="unsaved">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+              <!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
+              <path
+                d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"
+              />
+            </svg>
+            <span>Unsaved changes, please wait...</span>
+          </span>
+
+          <span data-status="saving">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
+              <path
+                d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z"
+              />
+            </svg>
+            <span>Saving settings</span>
+          </span>
+        </p>
+      </div>
+    </header>
+
+    <form id="settings_form" class="container">
+      <h2>General</h2>
+
+      <fieldset>
+        <label for="input_popup_delay-range" data-setting="popupDelay"
+          >Popup delay amount <em>(milliseconds)</em></label
+        >
+
+        <div class="fieldset-row">
+          <div class="fieldset-col">
+            <input
+              type="range"
+              id="input_popup_delay-range"
+              min="100"
+              max="5000"
+              step="100"
+              style="width: 100%"
+              data-setting="popupDelay"
+              data-sync="input_popup_delay-number"
+              required
+            />
+          </div>
+
+          <div class="fieldset-col">
+            <input
+              type="number"
+              id="input_popup_delay-number"
+              min="100"
+              max="5000"
+              step="100"
+              data-setting="popupDelay"
+              data-sync="input_popup_delay-range"
+              required
+            />
+            <span>ms</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <p data-setting="darkMode">
+          Popup dark mode <em>(doesn't affect this page)</em>
+        </p>
+
+        <label class="switch">
+          <input
+            type="checkbox"
+            id="input_dark_mode"
+            data-setting="darkMode"
+            value="dark_mode"
+          />
+          <span class="slider"></span>
+          <span class="switch_off">No</span>
+          <span class="switch_on">Yes</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <p data-setting="hideCursor">Hide cursor</p>
+
+        <label class="switch">
+          <input
+            type="checkbox"
+            id="input_hide_cursor"
+            data-setting="hideCursor"
+            value="hide_cursor"
+          />
+          <span class="slider"></span>
+          <span class="switch_off">No</span>
+          <span class="switch_on">Yes</span>
+        </label>
+      </fieldset>
+
+      <!-- ========================= Section separator ========================= -->
+
+      <h2>Video</h2>
+
+      <fieldset>
+        <label for="input_video_volume-range" data-setting="videoVolume"
+          >Video volume</label
+        >
+        <div class="fieldset-row">
+          <div class="fieldset-col">
+            <input
+              type="range"
+              id="input_video_volume-range"
+              min="0"
+              max="100"
+              step="5"
+              style="width: 100%"
+              data-setting="videoVolume"
+              data-sync="input_video_volume-number"
+              required
+            />
+          </div>
+
+          <div class="fieldset-col">
+            <input
+              type="number"
+              id="input_video_volume-number"
+              min="0"
+              max="100"
+              step="5"
+              data-setting="videoVolume"
+              data-sync="input_video_volume-range"
+              required
+            />
+            <span>%</span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <p data-setting="loopVideos">Loop videos</p>
+        <label class="switch">
+          <input
+            type="checkbox"
+            id="input_loop_videos"
+            data-setting="loopVideos"
+            value="loop_videos"
+          />
+          <span class="slider"></span>
+          <span class="switch_off">No</span>
+          <span class="switch_on">Yes</span>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <p data-setting="videoMuted">Mute videos by default</p>
+        <label class="switch">
+          <input
+            type="checkbox"
+            id="input_video_muted"
+            data-setting="videoMuted"
+            value="video_muted"
+          />
+          <span class="slider"></span>
+          <span class="switch_off">No</span>
+          <span class="switch_on">Yes</span>
+        </label>
+      </fieldset>
+
+      <!-- ========================= Section separator ========================= -->
+
+      <h2>Mouse key actions for Images</h2>
+
+      <fieldset>
+        <label
+          for="input_left_click_action_images"
+          data-setting="leftClickAction_images"
+          >Left click action</label
+        >
+        <select
+          id="input_left_click_action_images"
+          data-setting="leftClickAction_images"
+          required
+        >
+          <option value="open_media_href_in_new_tab">
+            Open Media Link (in new tab)
+          </option>
+          <option value="open_media_href_in_same_tab">
+            Open Media Link (in same tab)
+          </option>
+          <option value="open_media_url_in_new_tab">
+            Open Media Source (in new tab)
+          </option>
+          <option value="open_media_url_in_same_tab">
+            Open Media Source (in same tab)
+          </option>
+          <option value="toggle_fill_mode">Toggle Fill-mode</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label
+          for="input_middle_click_action_images"
+          data-setting="middleClickAction_images"
+          >Middle click action</label
+        >
+        <select
+          id="input_middle_click_action_images"
+          data-setting="middleClickAction_images"
+          required
+        >
+          <option value="open_media_href_in_new_tab">
+            Open Media Link (in new tab)
+          </option>
+          <option value="open_media_href_in_same_tab">
+            Open Media Link (in same tab)
+          </option>
+          <option value="open_media_url_in_new_tab">
+            Open Media Source (in new tab)
+          </option>
+          <option value="open_media_url_in_same_tab">
+            Open Media Source (in same tab)
+          </option>
+          <option value="toggle_fill_mode">Toggle Fill-mode</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label
+          for="input_right_click_action_images"
+          data-setting="rightClickAction_images"
+          >Right click action</label
+        >
+        <select
+          id="input_right_click_action_images"
+          data-setting="rightClickAction_images"
+          required
+        >
+          <option value="open_media_href_in_new_tab">
+            Open Media Link (in new tab)
+          </option>
+          <option value="open_media_href_in_same_tab">
+            Open Media Link (in same tab)
+          </option>
+          <option value="open_media_url_in_new_tab">
+            Open Media Source (in new tab)
+          </option>
+          <option value="open_media_url_in_same_tab">
+            Open Media Source (in same tab)
+          </option>
+          <option value="toggle_fill_mode">Toggle Fill-mode</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <!-- ========================= Section separator ========================= -->
+
+      <h2>Mouse key actions for Videos</h2>
+
+      <fieldset>
+        <label
+          for="input_left_click_action_videos"
+          data-setting="leftClickAction_videos"
+          >Left click action</label
+        >
+        <select
+          id="input_left_click_action_videos"
+          data-setting="leftClickAction_videos"
+          required
+        >
+          <option value="open_media_href_in_new_tab">
+            Open Media Link (in new tab)
+          </option>
+          <option value="open_media_href_in_same_tab">
+            Open Media Link (in same tab)
+          </option>
+          <option value="open_media_url_in_new_tab">
+            Open Media Source (in new tab)
+          </option>
+          <option value="open_media_url_in_same_tab">
+            Open Media Source (in same tab)
+          </option>
+          <option value="toggle_fill_mode">Toggle Fill-mode</option>
+          <option value="play_pause_video">Play/Pause video</option>
+          <option value="toggle_mute">Toggle mute</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label
+          for="input_middle_click_action_videos"
+          data-setting="middleClickAction_videos"
+          >Middle click action</label
+        >
+        <select
+          id="input_middle_click_action_videos"
+          data-setting="middleClickAction_videos"
+          required
+        >
+          <option value="open_media_href_in_new_tab">
+            Open Media Link (in new tab)
+          </option>
+          <option value="open_media_href_in_same_tab">
+            Open Media Link (in same tab)
+          </option>
+          <option value="open_media_url_in_new_tab">
+            Open Media Source (in new tab)
+          </option>
+          <option value="open_media_url_in_same_tab">
+            Open Media Source (in same tab)
+          </option>
+          <option value="toggle_fill_mode">Toggle Fill-mode</option>
+          <option value="play_pause_video">Play/Pause video</option>
+          <option value="toggle_mute">Toggle mute</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <label
+          for="input_right_click_action_videos"
+          data-setting="rightClickAction_videos"
+          >Right click action</label
+        >
+        <select
+          id="input_right_click_action_videos"
+          data-setting="rightClickAction_videos"
+          required
+        >
+          <option value="open_media_href_in_new_tab">
+            Open Media Link (in new tab)
+          </option>
+          <option value="open_media_href_in_same_tab">
+            Open Media Link (in same tab)
+          </option>
+          <option value="open_media_url_in_new_tab">
+            Open Media Source (in new tab)
+          </option>
+          <option value="open_media_url_in_same_tab">
+            Open Media Source (in same tab)
+          </option>
+          <option value="toggle_fill_mode">Toggle Fill-mode</option>
+          <option value="play_pause_video">Play/Pause video</option>
+          <option value="toggle_mute">Toggle mute</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <!-- ========================= Section separator ========================= -->
+
+      <h2>Scroll action for Videos</h2>
+
+      <fieldset>
+        <label for="input_scroll_action" data-setting="scrollAction"
+          >Scroll action <em>(up &amp; down)</em></label
+        >
+        <select id="input_scroll_action" data-setting="scrollAction" required>
+          <option value="change_video_volume">Change video volume</option>
+          <option value="change_video_time">Change video time</option>
+          <option value="default">Default</option>
+          <option value="none">None</option>
+        </select>
+      </fieldset>
+
+      <!-- <button>Save settings</button> -->
+    </form>
+  </body>
+
+  <script src="settings.js"></script>
+</html>

@@ -1,0 +1,137 @@
+.switch {
+  --switch-width: 150px;
+  --switch-height: 45px;
+
+  position: relative;
+  display: inline-block;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  font-size: 1.4rem;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .switch_off,
+  .switch_on {
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: calc(var(--switch-width) / 2);
+    text-align: center;
+    cursor: pointer;
+    transform: translateY(-50%);
+    opacity: 1;
+    user-select: none;
+    z-index: 100;
+  }
+  .switch_off {
+    left: var(--text-padding);
+  }
+  .switch_on {
+    left: calc(var(--switch-width) / 2);
+  }
+  &.smear-left .switch_off,
+  &.smear-left .switch_on,
+  &.smear-right .switch_off,
+  &.smear-right .switch_on {
+    transition: color 0.4s ease-in-out, opacity 0.4s ease-in-out;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #eaeaea;
+    border-radius: var(--switch-height);
+    box-shadow: inset 1px 0 5px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.4s ease-in-out;
+  }
+
+  // TODO: add width smear on change? aka, become wider in the middle of the animation
+  .slider:before {
+    --slider-padding: 4px;
+    --slider-width: calc((var(--switch-width) - var(--slider-padding) * 2) / 2);
+    --slider-height: calc(var(--switch-height) - var(--slider-padding) * 2);
+
+    position: absolute;
+    content: "";
+    width: var(--slider-width);
+    height: var(--slider-height);
+    left: var(--slider-padding);
+    bottom: var(--slider-padding);
+    background-color: #fff;
+    border: 2px solid #3491ff;
+    border-radius: var(--switch-width);
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.35);
+    z-index: 50;
+  }
+
+  &.smear-left .slider:before {
+    animation: smear-left 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+  }
+  &.smear-right .slider:before {
+    animation: smear-right 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+  }
+
+  @keyframes smear-left {
+    0% {
+      width: var(--slider-width);
+    }
+    75% {
+      width: calc(var(--slider-width) + var(--slider-width) / 2);
+    }
+    100% {
+      width: var(--slider-width);
+    }
+  }
+  @keyframes smear-right {
+    0% {
+      width: var(--slider-width);
+      left: var(--slider-padding);
+    }
+    5% {
+      left: calc(var(--slider-padding));
+    }
+    75% {
+      width: calc(var(--slider-width) + var(--slider-width) / 2);
+      left: calc(var(--slider-padding) - var(--slider-width) / 2);
+    }
+    100% {
+      width: var(--slider-width);
+      left: var(--slider-padding);
+    }
+  }
+
+  input ~ .switch_off,
+  input:checked ~ .switch_on {
+    color: #2377db;
+    font-weight: bold;
+    opacity: 1;
+  }
+  input:checked ~ .switch_off,
+  input ~ .switch_on {
+    color: #1d1d1d;
+    font-weight: initial;
+    opacity: 0.75;
+  }
+
+  /* input:focus ~ .slider {
+    box-shadow: 0 0 5px rgba(52, 145, 255, 1) inset;
+  } */
+
+  input:checked ~ .slider:before {
+    transform: translateX(
+      calc(
+        var(--switch-width) - var(--slider-width) - var(--slider-padding) * 2
+      )
+    );
+  }
+}

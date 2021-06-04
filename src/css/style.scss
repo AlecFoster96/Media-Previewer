@@ -1,0 +1,365 @@
+.mediaViewerPopup,
+.mediaViewerPopup * {
+  box-sizing: border-box;
+}
+
+.mediaViewerPopup {
+  --popup-padding: 5px;
+  --preview-spacing: 5px;
+  --title-height: 35px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: var(--popup-padding);
+  background-color: #fff;
+  color: #1d1d1d;
+  border-radius: 5px;
+  box-shadow: 0px 2px 50px rgb(0 0 0 / 45%);
+  overflow: hidden;
+  z-index: 10000;
+
+  &.hideCursor {
+    cursor: none !important;
+  }
+
+  strong,
+  b {
+    font-weight: bold;
+  }
+
+  &.show {
+    display: grid !important; // !important is needed to fix issues when sites use bootstrap
+    grid-auto-columns: 0fr;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: var(--popup-padding);
+      right: var(--popup-padding);
+      height: var(--title-height);
+      width: 35px;
+      background: rgb(255, 255, 255);
+      /* background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(255, 255, 255, 0.35) 75%,
+        rgba(255, 255, 255, 1) 75%
+      ); */
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+      );
+      z-index: 100;
+    }
+  }
+
+  &__loadingContainer,
+  &__previewTitle {
+    display: none;
+  }
+
+  &.loading &__loadingContainer {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    padding: 20px 30px;
+
+    @keyframes spinner {
+      0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+      }
+      100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+      }
+    }
+    spinner {
+      --spinner-size: 60px;
+      --spinner-stroke-width: 7px;
+
+      position: relative;
+      display: block;
+      width: var(--spinner-size);
+      height: var(--spinner-size);
+      z-index: 500;
+
+      &::before {
+        animation: 1.5s linear infinite spinner;
+        animation-play-state: inherit;
+        border: solid var(--spinner-stroke-width) #cfd0d1;
+        border-bottom-color: #1c87c9;
+        border-radius: 50%;
+        content: "";
+        height: calc(var(--spinner-size) - (var(--spinner-stroke-width) * 2));
+        width: calc(var(--spinner-size) - (var(--spinner-stroke-width) * 2));
+        position: absolute;
+        top: calc((var(--spinner-size) / 2));
+        left: calc((var(--spinner-size) / 2));
+        transform: translate3d(-50%, -50%, 0);
+        will-change: transform;
+      }
+    }
+
+    p {
+      margin-bottom: 0;
+      margin-top: 15px;
+    }
+  }
+  &:not(.loading) &__preview {
+    position: relative;
+    margin-bottom: var(--preview-spacing);
+
+    .progressBar {
+      --progress-height: 7px;
+
+      position: absolute;
+      display: block;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: var(--progress-height);
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      z-index: 150;
+
+      .progress {
+        display: block;
+        width: 0;
+        height: var(--progress-height);
+        background-color: #1c87c9;
+        //transition: width 0.2s ease-in-out;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    .volumePopup {
+      position: absolute;
+      display: block;
+      top: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-size: 20px;
+      border-radius: 7px;
+      padding: 15px 25px;
+      text-align: center;
+      opacity: 0;
+
+      &.fadeIn {
+        animation: 0.35s ease-in-out 1 fadeIn;
+        animation-fill-mode: forwards;
+      }
+
+      &.fadeOut {
+        animation: 0.35s ease-in-out 1 fadeOut;
+        animation-fill-mode: forwards;
+      }
+
+      z-index: 150;
+    }
+    .playPausePopup {
+      --playPausePopup-size: 100px;
+
+      position: absolute;
+      display: flex;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.75);
+      font-size: 20px;
+      border-radius: 50%;
+      height: var(--playPausePopup-size);
+      width: var(--playPausePopup-size);
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+
+      svg {
+        position: relative;
+        height: calc(var(--playPausePopup-size) - 50px);
+        width: calc(var(--playPausePopup-size) - 50px);
+        fill: rgba(255, 255, 255, 0.75);
+      }
+
+      &.fadeIn {
+        animation: 0.35s ease-in-out 1 fadeIn;
+        animation-fill-mode: forwards;
+      }
+
+      &.fadeOut {
+        animation: 0.35s ease-in-out 1 fadeOut;
+        animation-fill-mode: forwards;
+      }
+
+      z-index: 150;
+    }
+  }
+
+  // TODO: this shouldn't be needed, but for some reason the popups exist in the next previewer, so this is a temp fix
+  &.loading {
+    .volumePopup,
+    .playPausePopup {
+      display: none !important;
+    }
+  }
+
+  &:not(.loading) &__previewTitle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0 4px;
+    height: var(--title-height);
+    width: 100%;
+    //text-overflow: ellipsis;
+    overflow: hidden;
+
+    > * {
+      vertical-align: middle;
+    }
+
+    > spacer {
+      position: relative;
+      display: inline-block;
+      height: calc(var(--title-height) - 15px);
+      margin: 0 8px;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 100%;
+        background-color: #afafaf;
+      }
+    }
+
+    tag {
+      position: relative;
+      color: #1d1d1d;
+      background-color: #afafaf;
+      border-radius: 100px;
+      max-height: var(--title-height);
+      padding: 5px 12px;
+      //top: 3px;
+
+      &[bold] {
+        font-weight: bold;
+      }
+      &[lowercase] {
+        text-transform: lowercase;
+      }
+      &[uppercase] {
+        text-transform: uppercase;
+      }
+
+      &[color] {
+        color: #fff;
+      }
+
+      &[color="red"] {
+        background-color: #cc2f2f;
+      }
+      &[color="orange"] {
+        background-color: #ad6e11;
+      }
+      &[color="yellow"] {
+        background-color: #9ba512;
+      }
+      &[color="green"] {
+        background-color: #269a1f;
+      }
+      &[color="blue"] {
+        background-color: #1a628c;
+      }
+      &[color="teal"] {
+        background-color: #118282;
+      }
+      &[color="purple"] {
+        background-color: #8a2890;
+      }
+      &[color="pink"] {
+        background-color: #ca3db2;
+      }
+
+      & + tag {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  img,
+  video {
+    position: relative;
+    display: block;
+    /*width: 100%;*/
+    width: auto;
+    height: auto;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: calc(95vw - var(--popup-padding) * 2);
+    max-height: calc(
+      95vh - var(--title-height) - var(--preview-spacing) - var(--popup-padding) *
+        2
+    );
+    z-index: 100;
+  }
+
+  &.darkMode {
+    background-color: #1d1d1d;
+    color: #fff;
+
+    &.show {
+      &::after {
+        background: rgb(29, 29, 29);
+        background: linear-gradient(
+          90deg,
+          rgba(29, 29, 29, 0) 0%,
+          rgba(29, 29, 29, 1) 100%
+        );
+      }
+
+      .progressBar {
+        background-color: #1d1d1d;
+        border-bottom: 1px solid #3a3a3a;
+
+        .progress {
+          background-color: #1c87c9;
+        }
+      }
+
+      tag {
+        color: #fff;
+        background-color: #3a3a3a;
+
+        &[color="pink"] {
+          background-color: #bd37a6;
+        }
+      }
+    }
+  }
+}
