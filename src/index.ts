@@ -24,6 +24,12 @@ import { ELP } from "./config/main";
     - Customize key binds [v0.1.1]
 */
 
+/*
+  TODO: Make a base parser that can be used to resolve simple custom things using RegEx (similar to Imagus' Sieve thing)
+  The getMouseEventPath function can be used to find mediaHref for the base parser. Maybe allow for options like "extensions", anchor class/id.
+  e.g. Twitter: https://pbs.twimg.com/media/__MEDIA_ID__?format=jpg&name=small => https://pbs.twimg.com/media/__MEDIA_ID__?format=jpg&name=orig
+*/
+
 const browser = getBrowser();
 const manifestData = browser.runtime.getManifest();
 

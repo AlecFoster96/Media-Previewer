@@ -267,6 +267,23 @@
       padding: 5px 12px;
       //top: 3px;
 
+      svg {
+        display: inline;
+        fill: #1d1d1d;
+        width: 16px;
+        height: 16px;
+        margin-right: 5px;
+      }
+
+      &[flex] {
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 7px;
+        }
+      }
+
       &[bold] {
         font-weight: bold;
       }
@@ -279,6 +296,10 @@
 
       &[color] {
         color: #fff;
+
+        svg {
+          fill: #fff;
+        }
       }
 
       &[color="red"] {

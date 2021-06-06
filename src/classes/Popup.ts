@@ -4,13 +4,23 @@ import {
   Position,
   WebExtensionsAPI,
 } from "../config/interfaces";
-import { checkTagName, clamp, getMediaOrientation } from "./Functions";
+import {
+  checkTagName,
+  clamp,
+  getMediaOrientation,
+  videoHasAudio,
+} from "./Functions";
 import { CacheManager } from "./CacheManager";
 import { Fetcher } from "./Fetcher";
 import { MouseAction, Settings } from "./Settings";
 import classNames from "../config/classNames";
 import { ELP } from "../config/main";
-import { pauseIcon, playIcon } from "../config/icons";
+import {
+  pauseIcon,
+  playIcon,
+  volumeMuteIcon,
+  volumeUpIcon,
+} from "../config/icons";
 
 export class Popup {
   public element: HTMLElement;
@@ -380,11 +390,16 @@ export class Popup {
               mediaPreview.append(mediaElement);
 
               if (mediaPreviewTitle) {
-                if (currentMedia.title) {
-                  mediaPreviewTitle.innerHTML = `<strong>${mediaWidth}</strong><span style="padding: 0 1px;">x</span><strong>${mediaHeight}</strong><spacer></spacer>${currentMedia.title}`;
-                } else {
-                  mediaPreviewTitle.innerHTML = `<strong>${mediaWidth}</strong><span style="padding: 0 1px;">x</span><strong>${mediaHeight}</strong>`;
+                let titleHtml = `<strong>${mediaWidth}</strong><span style="padding: 0 1px;">x</span><strong>${mediaHeight}</strong>`;
+
+                if (currentMedia.type === "video") {
+                  titleHtml += `<spacer></spacer><tag class="videoAudioTag" color="blue" flex bold>waiting...</tag>`;
                 }
+
+                if (currentMedia.title) {
+                  titleHtml += `<spacer></spacer>${currentMedia.title}`;
+                }
+                mediaPreviewTitle.innerHTML = titleHtml;
               }
 
               if (currentMedia.type === "video") {
@@ -398,6 +413,16 @@ export class Popup {
                 (mediaElement as HTMLVideoElement).addEventListener(
                   "timeupdate",
                   () => {
+                    const videoAudioTag =
+                      this.getPreviewTitle()?.querySelector(".videoAudioTag");
+                    if (videoAudioTag) {
+                      if (videoHasAudio(mediaElement as HTMLVideoElement)) {
+                        videoAudioTag.innerHTML = `${volumeUpIcon} Audio`;
+                      } else {
+                        videoAudioTag.innerHTML = `${volumeMuteIcon} No audio`;
+                      }
+                    }
+
                     const currentTime = (mediaElement as HTMLVideoElement)
                       .currentTime;
                     const currentDuration = (mediaElement as HTMLVideoElement)

@@ -15,7 +15,7 @@ export function normalizeString(value: string): string {
     .toLowerCase()
     .trim();
 }
-export function toTitleCase(value: string) {
+export function toTitleCase(value: string): string {
   return value.replace(/\w\S*/g, (text) => {
     return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
   });
@@ -133,4 +133,15 @@ export function getMediaOrientation(
 
 export function getScreenOrientation(): "portrait" | "landscape" {
   return window.innerWidth >= window.innerHeight ? "landscape" : "portrait";
+}
+
+export function videoHasAudio(videoElement: HTMLVideoElement): boolean {
+  return (
+    (videoElement as any).mozHasAudio ||
+    Boolean((videoElement as any).webkitAudioDecodedByteCount) ||
+    Boolean(
+      (videoElement as any).audioTracks &&
+        (videoElement as any).audioTracks.length
+    )
+  );
 }
