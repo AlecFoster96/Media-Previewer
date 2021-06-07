@@ -1,4 +1,4 @@
-import { checkElement } from "./classes/Functions";
+import { checkQuery } from "./classes/Functions";
 import {
   defaultSettings,
   getSettings,
@@ -7,11 +7,11 @@ import {
 } from "./classes/Settings";
 import { undoIcon } from "./config/icons";
 import { ELP } from "./config/main";
-import checkQuery from "./tests/checkQuery";
+import checkQueryTest from "./tests/checkQuery";
 import "./css/settings.scss";
 
 function runTests() {
-  checkQuery();
+  checkQueryTest();
 }
 
 document.addEventListener(
@@ -153,15 +153,7 @@ function setToDefault(settingKey: string) {
           const parent = inputElement.parentElement;
 
           if (parent) {
-            if (
-              checkElement(
-                {
-                  classes: ["switch"],
-                  tagNames: ["label"],
-                },
-                parent
-              )
-            ) {
+            if (checkQuery("label.switch", parent)) {
               let smearClass = "smear-left";
               if (Boolean(defaultSettingValue) === true) {
                 smearClass = "smear-right";
@@ -262,15 +254,7 @@ document
         const parent = inputElement.parentElement;
 
         if (parent) {
-          if (
-            checkElement(
-              {
-                classes: ["switch"],
-                tagNames: ["label"],
-              },
-              parent
-            )
-          ) {
+          if (checkQuery("label.switch", parent)) {
             let smearClass = "smear-left";
             if (Boolean(newValue) === true) {
               smearClass = "smear-right";

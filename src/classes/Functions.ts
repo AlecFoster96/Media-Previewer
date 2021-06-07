@@ -23,43 +23,12 @@ export function toTitleCase(value: string): string {
   });
 }
 
-export interface CheckOptions {
-  classes?: string[];
-  tagNames?: string[];
-}
-
-export function checkElement(
-  options: CheckOptions,
-  element: HTMLElement
-): boolean {
-  let results: boolean[] = [];
-  let classList = element?.classList ? Array.from(element.classList) : [];
-
-  options.classes = options?.classes || [];
-  options.tagNames = options?.tagNames || [];
-
-  if (options.classes.length > 0) {
-    results.push(
-      options.classes.some((classStr) =>
-        classList.includes(normalizeString(classStr))
-      )
-    );
-  }
-  if (options.tagNames.length > 0) {
-    results.push(
-      options.tagNames.some(
-        (tagName) =>
-          normalizeString(element.tagName) === normalizeString(tagName)
-      )
-    );
-  }
-
-  return results.every((value) => value === true);
-}
-
 const tagRegEx = new RegExp("^([^#.]+)", "i");
 const idRegEx = new RegExp("^[#]([^#.]+)", "i");
 const classRegEx = new RegExp("^[.]([^#.]+)", "i");
+
+// works similar to .querySelector, except it is used to check if the provided element matches (e.g. classes exists, tag name matches)
+// currently doesn't support attributes like .querySelector does, might add in the future, so support for: `h1[data-id="test"][disabled]`
 export function checkQuery(
   query: string,
   element: HTMLElement,
@@ -103,7 +72,7 @@ export function checkQuery(
     runs++;
 
     if (runs > 1000) {
-      console.warn(ELP, "checkEl hit match limit!", query);
+      console.warn(ELP, "checkQuery hit match limit!", query);
     }
   }
 
