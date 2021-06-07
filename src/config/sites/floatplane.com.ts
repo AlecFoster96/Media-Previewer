@@ -1,6 +1,6 @@
 import { MediaData } from "../interfaces";
 import {
-  checkTagName,
+  checkQuery,
   getMouseEventPath,
   isMouseOnElement,
 } from "../../classes/Functions";
@@ -24,10 +24,16 @@ export default new Site("floatplane.com", (mouseEvent) => {
     const pathElement = path as HTMLElement;
     const classList = Array.from(pathElement?.classList || []);
 
-    if (checkTagName("post-tile", pathElement)) {
+    if (checkQuery("a.video", pathElement)) {
       // Home page
-      thumbnailElement = pathElement.querySelector("post-tile-thumbnail img");
-      hrefElement = pathElement.querySelector("a.video");
+      const thumbnailElements = pathElement.querySelectorAll(
+        "post-tile-thumbnail img, .ReactPostTileThumbnailContainer img"
+      );
+      thumbnailElement =
+        thumbnailElements.length > 0
+          ? (thumbnailElements[0] as HTMLElement)
+          : null;
+      hrefElement = pathElement;
       titleElement = pathElement.querySelector(".info-box .title");
     } else if (classList.includes("post-list-item")) {
       // Related videos
@@ -36,10 +42,6 @@ export default new Site("floatplane.com", (mouseEvent) => {
       );
       hrefElement = pathElement;
       titleElement = pathElement.querySelector(".post-item-title");
-    } else if (classList.includes("ytp-ce-covering-overlay")) {
-      // Video end cards
-      hrefElement = pathElement;
-      titleElement = pathElement.querySelector(".ytp-ce-video-title");
     }
 
     if (thumbnailElement && hrefElement && titleElement) {
