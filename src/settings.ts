@@ -7,7 +7,27 @@ import {
 } from "./classes/Settings";
 import { undoIcon } from "./config/icons";
 import { ELP } from "./config/main";
+import checkQuery from "./tests/checkQuery";
 import "./css/settings.scss";
+
+function runTests() {
+  checkQuery();
+}
+
+document.addEventListener(
+  "keydown",
+  (keyEvent) => {
+    if (!keyEvent || !keyEvent.code) return;
+
+    if (keyEvent.code === "F9") {
+      keyEvent.preventDefault();
+      keyEvent.stopPropagation();
+
+      runTests();
+    }
+  },
+  true
+);
 
 let unsavedSettings: boolean = false;
 function saveSettings() {
