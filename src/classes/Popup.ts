@@ -406,7 +406,6 @@ export class Popup {
                 const progressBar = document.createElement("div");
                 const progress = document.createElement("div");
                 progressBar.classList.add("progressBar");
-                progress.classList.add("progress");
                 progressBar.append(progress);
                 mediaPreview.append(progressBar);
 

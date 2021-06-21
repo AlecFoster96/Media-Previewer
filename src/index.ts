@@ -22,6 +22,7 @@ import { ELP } from "./config/main";
     - Keep fill-mode on next images as well [default false]
     - Keep settings for current page load (volume changes, hide cursor, etc) [default true]
     - Customize key binds [v0.1.1]
+    - Add double-click actions
 */
 
 /*

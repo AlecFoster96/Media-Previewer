@@ -127,14 +127,18 @@
       max-width: 100%;
       height: var(--progress-height);
       background-color: #fff;
+      border: none;
+      border-radius: 0;
       border-bottom: 1px solid #e5e5e5;
       z-index: 150;
 
-      .progress {
+      div {
         display: block;
         width: 0;
         height: var(--progress-height);
         background-color: #1c87c9;
+        border: none;
+        border-radius: 0;
         //transition: width 0.2s ease-in-out;
       }
     }
@@ -368,7 +372,7 @@
         background-color: #1d1d1d;
         border-bottom: 1px solid #3a3a3a;
 
-        .progress {
+        div {
           background-color: #1c87c9;
         }
       }
