@@ -130,6 +130,7 @@ const chromiumManifest = {
   permissions: extensionSettings.permissions,
   action: modifiedAction,
   content_scripts: extensionSettings.content_scripts,
+  icons: extensionSettings.icons,
 };
 
 let firefoxManifest = Object.assign({}, chromiumManifest);
@@ -216,6 +217,10 @@ export default [
               {
                 src: `${distPaths.chromium}/script.js`,
                 dest: distPaths.firefox,
+              },
+              {
+                src: "public/images",
+                dest: [distPaths.chromium, distPaths.firefox],
               },
             ],
           }),
